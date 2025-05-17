@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LevelUp - Test de Inglés</title>
+    <meta name="description" content="Evalúa tu nivel de inglés con nuestro test rápido y preciso. Descubre tu nivel y mejora con LevelUp." />
+  <meta name="keywords" content="test de inglés, nivel de inglés, prueba de inglés, examinar inglés" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-weight: 700;
+        }
+
+        .progress {
+            height: 10px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            background-color: #0d6efd;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            background-color: #f1f1f1;
+        }
+
+        .option.selected {
+            background-color: #e7f1ff;
+            border-color: #0d6efd;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .level-info {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .btn-finish {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .btn-finish:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid #0d6efd;
+            transform: translateY(0);
+            transition: transform 0.3s ease-out;
+            position: relative;
+        }
+
+        .modal-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .modal-header h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+            color: white;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 10px auto;
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+            font-size: 18px;
+        }
+
+        .result-details {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .result-label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-container {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar-modal {
+            height: 100%;
+            background: linear-gradient(90deg, #20c997, #0d6efd);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        .btn-continue {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+        }
+
+        .btn-continue:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+
+        .btn-exit {
+            background-color: white;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+
+        .btn-exit:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .success-message {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .success-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .fail-message {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .fail-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="index.html">LevelUp</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Test</a></li>
+                    <li class="nav-item"><a class="nav-link" href="donate.html">Donar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container mt-4">
+        <div class="test-container">
+            <h2 class="text-center mb-3 text-primary">Test Your English</h2>
+            
+            <div class="level-info" id="levelInfo">
+                Nivel: A1 - Beginner
+            </div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%"></div>
+            </div>
+            
+            <div class="text-center mb-3">
+                <span id="percentageText">Percentage of completion 0%</span>
+            </div>
+            
+            <div class="text-center mb-4">
+                <span id="questionCounter">Question 1 of 10</span>
+            </div>
+            
+            <form id="testForm">
+                <div class="question-container">
+                    <div class="question-text" id="questionText"></div>
+                    <div id="optionsContainer"></div>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-outline-primary" id="backButton" disabled>Back</button>
+                    <button type="button" class="btn btn-primary" id="nextButton">Next →</button>
+                    <button type="button" class="btn btn-finish" id="finishButton" style="display: none;">Finish Level</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de resultados mejorado -->
+    <div class="result-modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Level Results</h3>
+                <div class="level-badge" id="levelBadge">A2 - Elementary</div>
+            </div>
+            
+            <div class="result-details">
+                <div class="result-item">
+                    <span class="result-label">Correct answers:</span>
+                    <span class="result-value" id="correctAnswers">7/10</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Percentage:</span>
+                    <span class="result-value" id="percentageResult">70%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Minimum to pass:</span>
+                    <span class="result-value">70%</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar-modal" id="modalProgressBar" style="width: 70%"></div>
+                </div>
+            </div>
+            
+            <div id="resultMessage">
+                <!-- Mensaje de éxito/fracaso se insertará aquí -->
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="modal-btn btn-continue" id="continueButton">Continue</button>
+                <button type="button" class="modal-btn btn-exit" id="exitButton">Exit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-muted py-4">
+        <div class="container">
+            ¿Te gusta esta herramienta? <a href="donate.html" class="text-decoration-none text-primary">Haz una donación</a>      
+        </div>
+    </footer>
+
+    <script>
+        // Banco de preguntas organizado por niveles
+        const questionsByLevel = {
+            A1: [
+                { question: "They ___ two cats.", options: ["has", "have", "having"], correctAnswer: "have" },
+                { question: "He ___ reading newspapers.", options: ["is", "are", "be"], correctAnswer: "is" },
+                { question: "We ___ like coffee.", options: ["doesn't", "don't", "not"], correctAnswer: "don't" },
+                { question: "There ___ three apples on the table.", options: ["is", "are", "be"], correctAnswer: "are" },
+                { question: "She ___ drinking tea now.", options: ["is", "are", "am"], correctAnswer: "is" },
+                { question: "What is the opposite of 'slow'?", options: ["fast", "quick", "speedy"], correctAnswer: "fast" },
+                { question: "You ___ from Spain.", options: ["is", "are", "am"], correctAnswer: "are" },
+                { question: "It ___ snowing.", options: ["is", "are", "be"], correctAnswer: "is" },
+                { question: "What can you sleep on?", options: ["bed", "table", "floor"], correctAnswer: "bed" },
+                { question: "What do you write with?", options: ["pencil", "apple", "water"], correctAnswer: "pencil" },
+                { question: "What is the opposite of 'sad'?", options: ["happy", "angry", "tired"], correctAnswer: "happy" },
+                { question: "He ___ like tea.", options: ["doesn't", "don't", "not"], correctAnswer: "doesn't" },
+                { question: "___ is your address?", options: ["What", "Where", "How"], correctAnswer: "What" },
+                { question: "They ___ to work.", options: ["walks", "walk", "walking"], correctAnswer: "walk" },
+                { question: "It is ___ dog.", options: ["a", "an", "the"], correctAnswer: "a" },
+                { question: "___ she like chocolate?", options: ["Do", "Does", "Is"], correctAnswer: "Does" },
+                { question: "She is wearing a ___ dress.", options: ["blue", "run", "quickly"], correctAnswer: "blue" },
+                { question: "The moon appears at ___.", options: ["night", "morning", "afternoon"], correctAnswer: "night" },
+                { question: "___ he your brother?", options: ["Is", "Are", "Do"], correctAnswer: "Is" },
+                { question: "They ___ playing.", options: ["is", "are", "am"], correctAnswer: "are" },
+                { question: "We ___ three children.", options: ["has", "have", "having"], correctAnswer: "have" },
+                { question: "Maria ___ watching TV.", options: ["is", "are", "be"], correctAnswer: "is" },
+                { question: "They ___ want to go.", options: ["doesn't", "don't", "not"], correctAnswer: "don't" },
+                { question: "There ___ a book on the shelf.", options: ["is", "are", "be"], correctAnswer: "is" },
+                { question: "The boys ___ running now.", options: ["is", "are", "am"], correctAnswer: "are" },
+                { question: "Opposite of 'big' is:", options: ["small", "tiny", "little"], correctAnswer: "small" },
+                { question: "She ___ from Italy.", options: ["is", "are", "am"], correctAnswer: "is" },
+                { question: "It ___ getting dark.", options: ["is", "are", "be"], correctAnswer: "is" },
+                { question: "Where do you cook food?", options: ["kitchen", "bedroom", "garden"], correctAnswer: "kitchen" },
+                { question: "What do you drink from?", options: ["cup", "shoe", "book"], correctAnswer: "cup" },
+                { question: "Opposite of 'hot' is:", options: ["cold", "warm", "cool"], correctAnswer: "cold" },
+                { question: "It ___ rain much here.", options: ["doesn't", "don't", "not"], correctAnswer: "doesn't" },
+                { question: "___ is your birthday?", options: ["When", "Where", "How"], correctAnswer: "When" },
+                { question: "I ___ to the park.", options: ["goes", "go", "going"], correctAnswer: "go" },
+                { question: "She is ___ teacher.", options: ["a", "an", "the"], correctAnswer: "a" },
+                { question: "___ they speak French?", options: ["Do", "Does", "Is"], correctAnswer: "Do" },
+                { question: "He has ___ hair.", options: ["black", "run", "quickly"], correctAnswer: "black" },
+                { question: "Birds fly in the ___.", options: ["sky", "ground", "water"], correctAnswer: "sky" },
+                { question: "___ this your bag?", options: ["Is", "Are", "Do"], correctAnswer: "Is" },
+                { question: "The baby ___ sleeping.", options: ["is", "are", "am"], correctAnswer: "is" },
+            ],
+            A2: [
+                { question: "If you ___ to visit your aunt, you can go tomorrow.", options: ["want", "wants", "wanting"], correctAnswer: "want" },
+                { question: "The book wasn't ___ interesting as I hoped.", options: ["as", "so", "than"], correctAnswer: "as" },
+                { question: "How do you ___ to school?", options: ["go", "goes", "going"], correctAnswer: "go" },
+                { question: "He ___ to concerts often.", options: ["goes", "go", "going"], correctAnswer: "goes" },
+                { question: "I ___ when it's cold.", options: ["shiver", "swim", "sing"], correctAnswer: "shiver" },
+                { question: "I can't find my wallet. I've ___ it.", options: ["lost", "lose", "losing"], correctAnswer: "lost" },
+                { question: "Please ___ your address here.", options: ["write", "wrote", "writing"], correctAnswer: "write" },
+                { question: "She ___ the news every morning.", options: ["watches", "watch", "watching"], correctAnswer: "watches" },
+                { question: "___ your cousins coming to the wedding?", options: ["Are", "Is", "Do"], correctAnswer: "Are" },
+                { question: "I usually have ___ for lunch.", options: ["sandwiches", "sleep", "running"], correctAnswer: "sandwiches" },
+                { question: "Can you ___ the door?", options: ["open", "opened", "opening"], correctAnswer: "open" },
+                { question: "They ___ to the mountains every winter.", options: ["go", "goes", "going"], correctAnswer: "go" },
+                { question: "We don't have ___ milk.", options: ["any", "some", "many"], correctAnswer: "any" },
+                { question: "I am ___ than my sister.", options: ["taller", "tall", "tallest"], correctAnswer: "taller" },
+                { question: "I ___ hungry this morning.", options: ["was", "were", "am"], correctAnswer: "was" },
+                { question: "He ___ like to travel by train.", options: ["doesn't", "don't", "not"], correctAnswer: "doesn't" },
+                { question: "I feel ___ because I failed my test.", options: ["sad", "happy", "excited"], correctAnswer: "sad" },
+                { question: "___ you ever visited London?", options: ["Have", "Has", "Did"], correctAnswer: "Have" },
+                { question: "They ___ dinner at 7:00.", options: ["have", "has", "having"], correctAnswer: "have" },
+                { question: "She can ___ Spanish.", options: ["speak", "speaks", "speaking"], correctAnswer: "speak" },
+                { question: "If you ___ to see the exhibition, go on Friday.", options: ["want", "wants", "wanting"], correctAnswer: "want" },
+                { question: "The play wasn't ___ funny as they said.", options: ["as", "so", "than"], correctAnswer: "as" },
+                { question: "How do you ___ home after work?", options: ["get", "gets", "getting"], correctAnswer: "get" },
+                { question: "We ___ to the cinema monthly.", options: ["go", "goes", "going"], correctAnswer: "go" },
+                { question: "I ___ when I'm nervous.", options: ["sweat", "swim", "dance"], correctAnswer: "sweat" },
+                { question: "I've ___ my glasses. Have you seen them?", options: ["misplaced", "place", "placing"], correctAnswer: "misplaced" },
+                { question: "Please ___ your phone number here.", options: ["write", "wrote", "writing"], correctAnswer: "write" },
+                { question: "He ___ podcasts every night.", options: ["listens to", "listen to", "listening to"], correctAnswer: "listens to" },
+                { question: "___ your parents joining us for dinner?", options: ["Are", "Is", "Do"], correctAnswer: "Are" },
+                { question: "I normally have ___ for dinner.", options: ["pasta", "sleep", "running"], correctAnswer: "pasta" },
+                { question: "Could you ___ the window?", options: ["close", "closed", "closing"], correctAnswer: "close" },
+                { question: "She ___ to the lake every summer.", options: ["travels", "travel", "traveling"], correctAnswer: "travels" },
+                { question: "There isn't ___ bread left.", options: ["any", "some", "many"], correctAnswer: "any" },
+                { question: "My brother is ___ than me.", options: ["younger", "young", "youngest"], correctAnswer: "younger" },
+                { question: "They ___ late yesterday.", options: ["were", "was", "are"], correctAnswer: "were" },
+                { question: "She ___ like to wake up early.", options: ["doesn't", "don't", "not"], correctAnswer: "doesn't" },
+                { question: "I feel ___ because I got a promotion.", options: ["thrilled", "sad", "angry"], correctAnswer: "thrilled" },
+                { question: "___ they ever tried sushi?", options: ["Have", "Has", "Did"], correctAnswer: "Have" },
+                { question: "We ___ breakfast at 8:30.", options: ["eat", "eats", "eating"], correctAnswer: "eat" },
+                { question: "He can ___ Chinese.", options: ["understand", "understands", "understanding"], correctAnswer: "understand" }
+            ],
+            B1: [
+                { question: "He ___ like bitter flavors.", options: ["doesn't", "don't", "not"], correctAnswer: "doesn't" },
+                { question: "She was ___ after the long hike.", options: ["exhausted", "excited", "bored"], correctAnswer: "exhausted" },
+                { question: "We ___ to the theater last weekend.", options: ["went", "go", "gone"], correctAnswer: "went" },
+                { question: "If it snows, we ___ stay indoors.", options: ["will", "would", "should"], correctAnswer: "will" },
+                { question: "He had a ___ look on his face.", options: ["puzzled", "happy", "angry"], correctAnswer: "puzzled" },
+                { question: "The museum ___ at 10 a.m.", options: ["opens", "open", "opening"], correctAnswer: "opens" },
+                { question: "He is a very ___ colleague.", options: ["reliable", "funny", "tall"], correctAnswer: "reliable" },
+                { question: "I ___ hamburgers, but I enjoy salads more.", options: ["eat", "ate", "eating"], correctAnswer: "eat" },
+                { question: "She can dance ___ than her friend.", options: ["better", "good", "best"], correctAnswer: "better" },
+                { question: "They reside in a ___ neighborhood.", options: ["quiet", "noisy", "expensive"], correctAnswer: "quiet" },
+                { question: "I've ___ completed my assignment.", options: ["just", "yet", "already"], correctAnswer: "just" },
+                { question: "He is very ___ at solving puzzles.", options: ["skilled", "bad", "slow"], correctAnswer: "skilled" },
+                { question: "I wish I ___ play the piano.", options: ["could", "can", "will"], correctAnswer: "could" },
+                { question: "She is ___ to be promoted soon.", options: ["likely", "unlikely", "certain"], correctAnswer: "likely" },
+                { question: "By the time you come, we ___ dinner.", options: ["will finish", "finished", "have finished"], correctAnswer: "will finish" }
+            ],
+            B2: [
+                { question: "If she ___ the instructions, she wouldn't have made mistakes.", options: ["had followed", "followed", "would follow"], correctAnswer: "had followed" },
+                { question: "The new regulations are ___ to create controversy.", options: ["likely", "unlikely", "certain"], correctAnswer: "likely" },
+                { question: "He ___ here since 2018.", options: ["has worked", "worked", "works"], correctAnswer: "has worked" },
+                { question: "Had they ___ earlier, they would have caught the train.", options: ["left", "leave", "leaving"], correctAnswer: "left" },
+                { question: "His ___ comments offended many people.", options: ["insensitive", "funny", "clever"], correctAnswer: "insensitive" },
+                { question: "She ___ wanted to be a pilot since childhood.", options: ["has", "had", "have"], correctAnswer: "has" },
+                { question: "The lecture was ___; several students fell asleep.", options: ["dull", "interesting", "exciting"], correctAnswer: "dull" },
+                { question: "I must have ___ my umbrella on the bus.", options: ["left", "leave", "leaving"], correctAnswer: "left" },
+                { question: "It's high time we ___ this issue seriously.", options: ["took", "take", "taking"], correctAnswer: "took" },
+                { question: "The committee decided to ___ a new approach.", options: ["adopt", "adapt", "adept"], correctAnswer: "adopt" },
+                { question: "The more you read, ___ your vocabulary becomes.", options: ["the richer", "richer", "rich"], correctAnswer: "the richer" },
+                { question: "We should ___ this matter immediately.", options: ["address", "ignore", "postpone"], correctAnswer: "address" },
+                { question: "Neither the teacher nor the students ___ satisfied.", options: ["are", "is", "be"], correctAnswer: "are" },
+                { question: "The announcement had a ___ impact on prices.", options: ["significant", "minor", "slight"], correctAnswer: "significant" },
+                { question: "She ___ to Rome by tomorrow evening.", options: ["will have flown", "flies", "flew"], correctAnswer: "will have flown" }
+            ],
+            C1: [
+                { question: "By the time you return, the guests ___.", options: ["will have left", "leave", "left"], correctAnswer: "will have left" },
+                { question: "Despite ___ meticulously, he missed the error.", options: ["checking", "checked", "check"], correctAnswer: "checking" },
+                { question: "Her arguments were entirely ___ and irrelevant.", options: ["specious", "valid", "logical"], correctAnswer: "specious" },
+                { question: "If I ___ in your position, I would reconsider.", options: ["were", "was", "am"], correctAnswer: "were" },
+                { question: "The new law will come into ___ next year.", options: ["effect", "affect", "enforcement"], correctAnswer: "effect" },
+                { question: "He reminded me ___ the documents.", options: ["to bring", "bringing", "bring"], correctAnswer: "to bring" },
+                { question: "Not only ___ a scientist, but she also paints.", options: ["is she", "she is", "does she"], correctAnswer: "is she" },
+                { question: "The bridge was ___ in the storm.", options: ["damaged", "damage", "damaging"], correctAnswer: "damaged" },
+                { question: "I wish I ___ the answer to your question.", options: ["knew", "know", "known"], correctAnswer: "knew" },
+                { question: "The instructions ___ two eggs.", options: ["call for", "call to", "call at"], correctAnswer: "call for" },
+                { question: "The flight was canceled ___ bad weather.", options: ["due to", "because", "although"], correctAnswer: "due to" },
+                { question: "___ she was ill, she attended the meeting.", options: ["Although", "Because", "Despite"], correctAnswer: "Although" },
+                { question: "The corporation consists ___ several subsidiaries.", options: ["of", "with", "by"], correctAnswer: "of" },
+                { question: "The professor's theories are ___ in chapter three.", options: ["expounded", "hidden", "ignored"], correctAnswer: "expounded" },
+                { question: "The more you exercise, ___ you'll feel.", options: ["the better", "better", "good"], correctAnswer: "the better" }
+            ],
+            C2: [
+                { question: "She refuses to accept ___.", options: ["mediocrity", "excellence", "praise"], correctAnswer: "mediocrity" },
+                { question: "He was eventually ___ for his crimes.", options: ["punished", "rewarded", "praised"], correctAnswer: "punished" },
+                { question: "She's quite intelligent, ___?", options: ["isn't she", "is she", "doesn't she"], correctAnswer: "isn't she" },
+                { question: "The performance wasn't just good; it was ___.", options: ["extraordinary", "average", "mediocre"], correctAnswer: "extraordinary" },
+                { question: "___ she had realized the danger, she would have left.", options: ["Had", "Has", "Have"], correctAnswer: "Had" },
+                { question: "His ___ views often cause controversy.", options: ["unorthodox", "conventional", "traditional"], correctAnswer: "unorthodox" },
+                { question: "___ what he said, we must consider other options.", options: ["Granted", "Denying", "Considering"], correctAnswer: "Granted" },
+                { question: "She is ___ in her preferences.", options: ["uncompromising", "flexible", "indifferent"], correctAnswer: "uncompromising" },
+                { question: "The operation was performed ___.", options: ["flawlessly", "poorly", "adequately"], correctAnswer: "flawlessly" },
+                { question: "His excuse was completely ___.", options: ["unacceptable", "acceptable", "reasonable"], correctAnswer: "unacceptable" },
+                { question: "Not only ___ late, but he also forgot the materials.", options: ["did he arrive", "he arrived", "arrived he"], correctAnswer: "did he arrive" },
+                { question: "Her ___ solution saved the company millions.", options: ["ingenious", "ordinary", "conventional"], correctAnswer: "ingenious" },
+                { question: "No sooner had we sat down ___ the show began.", options: ["than", "when", "then"], correctAnswer: "than" },
+                { question: "The audience's response was ___.", options: ["overwhelming", "mild", "indifferent"], correctAnswer: "overwhelming" },
+                { question: "He neither eats meat ___ dairy products.", options: ["nor", "or", "and"], correctAnswer: "nor" }
+            ]
+        };
+
+        // Variables de estado
+        const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+        let currentLevelIndex = 0;
+        let currentQuestionIndex = 0;
+        let selectedQuestions = [];
+        const userAnswers = {};
+        const levelResults = {};
+        
+        // Inicializar userAnswers y levelResults
+        levels.forEach(level => {
+            userAnswers[level] = [];
+            levelResults[level] = { correct: 0, total: 0 };
+        });
+        
+        // Elementos del DOM
+        const levelInfo = document.getElementById('levelInfo');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const progressBar = document.getElementById('progressBar');
+        const percentageText = document.getElementById('percentageText');
+        const questionCounter = document.getElementById('questionCounter');
+        const backButton = document.getElementById('backButton');
+        const nextButton = document.getElementById('nextButton');
+        const finishButton = document.getElementById('finishButton');
+        const testForm = document.getElementById('testForm');
+        const resultModal = document.getElementById('resultModal');
+        const levelResultContent = document.getElementById('levelResultContent');
+        const continueButton = document.getElementById('continueButton');
+        const exitButton = document.getElementById('exitButton');
+        
+        // Función para seleccionar preguntas aleatorias
+        function selectRandomQuestions(level, count) {
+            const allQuestions = [...questionsByLevel[level]];
+            const selected = [];
+            
+            for (let i = 0; i < count && allQuestions.length > 0; i++) {
+                const randomIndex = Math.floor(Math.random() * allQuestions.length);
+                selected.push(allQuestions[randomIndex]);
+                allQuestions.splice(randomIndex, 1);
+            }
+            
+            return selected;
+        }
+        
+        // Mostrar la pregunta actual
+        function showQuestion() {
+            const currentLevel = levels[currentLevelIndex];
+            const question = selectedQuestions[currentQuestionIndex];
+            
+            // Actualizar información del nivel
+            levelInfo.textContent = `Level: ${currentLevel} - ${getLevelName(currentLevel)}`;
+            
+            // Actualizar contador y progreso
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
+            const progressPercentage = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            percentageText.textContent = `Percentage of completion ${Math.round(progressPercentage)}%`;
+            
+            // Mostrar pregunta
+            questionText.textContent = question.question;
+            
+            // Mostrar opciones
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, i) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = `option ${userAnswers[currentLevel][currentQuestionIndex] === option ? 'selected' : ''}`;
+                optionDiv.innerHTML = `
+                    <input type="radio" name="answer" id="option${i}" value="${option}" 
+                        ${userAnswers[currentLevel][currentQuestionIndex] === option ? 'checked' : ''}>
+                    <label for="option${i}">${option}</label>
+                `;
+                optionsContainer.appendChild(optionDiv);
+                
+                // Manejar clic en la opción
+                optionDiv.addEventListener('click', () => {
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    optionDiv.classList.add('selected');
+                    document.querySelector(`#option${i}`).checked = true;
+                    userAnswers[currentLevel][currentQuestionIndex] = option;
+                    
+                    // Habilitar siguiente si hay respuesta seleccionada
+                    nextButton.disabled = false;
+                    
+                    // Si es la última pregunta, habilitar el botón de finalizar
+                    if (currentQuestionIndex === selectedQuestions.length - 1) {
+                        finishButton.disabled = false;
+                    }
+                });
+            });
+            
+            // Actualizar estado de los botones de navegación
+            backButton.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === selectedQuestions.length - 1) {
+                nextButton.style.display = 'none';
+                finishButton.style.display = 'block';
+                finishButton.disabled = userAnswers[currentLevel][currentQuestionIndex] === undefined;
+            } else {
+                nextButton.style.display = 'block';
+                finishButton.style.display = 'none';
+            }
+        }
+        
+        // Función para obtener el nombre completo del nivel
+        function getLevelName(level) {
+            const names = {
+                'A1': 'Beginner',
+                'A2': 'Elementary',
+                'B1': 'Intermediate',
+                'B2': 'Upper-Intermediate',
+                'C1': 'Advanced',
+                'C2': 'Proficient'
+            };
+            return names[level] || '';
+        }
+        
+        // Calcular resultados del nivel actual
+        function calculateLevelResults() {
+            const currentLevel = levels[currentLevelIndex];
+            let correct = 0;
+            
+            for (let i = 0; i < selectedQuestions.length; i++) {
+                if (userAnswers[currentLevel][i] === selectedQuestions[i].correctAnswer) {
+                    correct++;
+                }
+            }
+            
+            levelResults[currentLevel] = {
+                correct: correct,
+                total: selectedQuestions.length,
+                passed: correct >= Math.ceil(selectedQuestions.length * 0.7)
+            };
+            
+            return levelResults[currentLevel];
+        }
+        
+        // Función para mostrar resultados del nivel (modificada)
+        function showLevelResults() {
+            const currentLevel = levels[currentLevelIndex];
+            const results = levelResults[currentLevel];
+            const percentage = Math.round((results.correct / results.total) * 100);
+            
+            // Actualizar elementos del modal
+            document.getElementById('levelBadge').textContent = `${currentLevel} - ${getLevelName(currentLevel)}`;
+            document.getElementById('correctAnswers').textContent = `${results.correct}/${results.total}`;
+            document.getElementById('percentageResult').textContent = `${percentage}%`;
+            document.getElementById('modalProgressBar').style.width = `${percentage}%`;
+            
+            // Configurar el mensaje de resultado
+            const resultMessage = document.getElementById('resultMessage');
+            resultMessage.innerHTML = '';
+            
+            if (results.passed) {
+                resultMessage.innerHTML = `
+                    <div class="success-message">
+                        <span class="success-icon">✓</span>
+                        <strong>Congratulations! </strong> You passed this level with ${percentage}%.
+                    </div>
+                `;
+                
+                // Mostrar botón de continuar solo si no es el último nivel
+                if (currentLevelIndex < levels.length - 1) {
+                    document.getElementById('continueButton').style.display = 'inline-block';
+                } else {
+                    document.getElementById('continueButton').style.display = 'none';
+                    resultMessage.innerHTML += `
+                        <div class="success-message mt-3">
+                            <span class="success-icon">🏆</span>
+                            <strong>Test completed!</strong> You've finished all levels.
+                        </div>
+                    `;
+                }
+            } else {
+                resultMessage.innerHTML = `
+                    <div class="fail-message">
+                        <span class="fail-icon">✗</span>
+                        <strong>Sorry!</strong> You didn't pass this level (needed 70%, got ${percentage}%).
+                    </div>
+                `;
+                document.getElementById('continueButton').style.display = 'none';
+            }
+            
+            // Mostrar el modal con animación
+            const modal = document.getElementById('resultModal');
+            modal.style.display = 'flex';
+            
+            // Agregar animación de entrada
+            setTimeout(() => {
+                modal.querySelector('.modal-content').style.transform = 'translateY(0)';
+            }, 10);
+        }
+        
+        // Avanzar al siguiente nivel
+        function goToNextLevel() {
+            currentLevelIndex++;
+            currentQuestionIndex = 0;
+            
+            if (currentLevelIndex < levels.length) {
+                startLevel();
+            } else {
+                // Todo el test está completo
+                saveFinalResults();
+                window.location.href = "result.html";
+            }
+        }
+        
+        // Iniciar un nivel
+        function startLevel() {
+            const currentLevel = levels[currentLevelIndex];
+            selectedQuestions = selectRandomQuestions(currentLevel, 10);
+            userAnswers[currentLevel] = new Array(selectedQuestions.length).fill(undefined);
+            showQuestion();
+        }
+        
+        // Guardar resultados finales
+        function saveFinalResults() {
+            localStorage.setItem("englishTestResults", JSON.stringify(levelResults));
+        }
+        
+        // Event listeners para navegación
+        backButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        });
+        
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < selectedQuestions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        });
+        
+        finishButton.addEventListener('click', () => {
+            const results = calculateLevelResults();
+            showLevelResults();
+        });
+        
+        continueButton.addEventListener('click', () => {
+            resultModal.style.display = 'none';
+            if (levelResults[levels[currentLevelIndex]].passed) {
+                goToNextLevel();
+            }
+        });
+        
+        exitButton.addEventListener('click', () => {
+            saveFinalResults();
+            window.location.href = "result.html";
+        });
+        
+        // Inicializar el test
+        startLevel();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

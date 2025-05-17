@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>LevelUp - Test de Inglés</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Realiza un test de inglés gratuito y descubre tu nivel con LevelUp. Aprende y mejora tu inglés con contenido personalizado.">
+    <meta name="keywords" content="test inglés, test inglés online, nivel de inglés, aprender inglés, inglés gratis, english test">
+    <meta name="author" content="Diego Ramos">
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .hero {
+      background-color: #f8f9fa;
+      padding: 80px 20px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    footer {
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .start-btn {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.start-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #6610f2, #0d6efd);
+  color: #fff;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="#">LevelUp</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="test.html">Test</a></li>
+          <li class="nav-item"><a class="nav-link" href="donate.html">Donar</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <div class="container mt-5">
+    <div class="hero">
+      <h1>Bienvenido a <span class="text-primary">LevelUp</span></h1>
+      <p class="mt-3">Pon a prueba tu nivel de inglés con nuestro test gratuito de gramática y vocabulario.<br> Descubre tu nivel en minutos.</p>
+      <!-- <a href="test.html" class="btn btn-primary btn-lg mt-4">Comenzar Test</a> -->
+      <a href="test.html" class="btn btn-lg btn-primary mt-4 start-btn">Comenzar Test</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-muted py-4 mt-5">
+    <div class="container">
+      ¿Te gusta esta herramienta? <a href="donate.html" class="text-decoration-none text-primary">Haz una donación</a>      
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
