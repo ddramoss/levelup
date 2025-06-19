@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LevelUp - Test de Inglés</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description"
+        content="Realiza un test de inglés gratuito y descubre tu nivel con LevelUp. Aprende y mejora tu inglés con contenido personalizado.">
+    <meta name="keywords"
+        content="test inglés, test inglés online, nivel de inglés, aprender inglés, inglés gratis, english test">
+    <meta name="author" content="Diego Ramos">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9481660786284543"
+     crossorigin="anonymous"></script> -->
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .hero {
+            background-color: #f8f9fa;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        footer {
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #0d6efd, #6610f2);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #6610f2, #0d6efd);
+            color: #fff;
+        }
+
+        .rotate-image {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#">LevelUp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="test.html">Test</a></li>
+                    <li class="nav-item"><a class="nav-link" href="donate.html">Donar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <div class="container mt-5">
+        <div class="hero">
+            <h1>Puzzle <span class="text-primary">The Birth of Venus</span></h1>
+            <img src="gif_1.gif" alt="image" style="height: 95vb">            
+        </div>
+
+        <div class="hero">
+            <video loop controls muted>
+                <source src="video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- CAROUSEL DE FOTOS -->
+        <div id="puzzleCarousel" class="carousel slide mt-5" data-bs-ride="carousel">
+            <div class="carousel-inner rounded shadow">
+
+
+                <div class="carousel-item active">
+                    <img src="images/32.jpeg" class="d-block w-75 mx-auto" alt="Imagen 1">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="images/33.jpeg" class="d-block w-75 mx-auto" alt="Imagen 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/333.jpeg" class="d-block w-75 mx-auto" alt="Imagen 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/34.jpeg" class="d-block w-75 mx-auto" alt="Imagen 2">
+                </div>
+            </div>
+
+            <!-- Controles del carrusel -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#puzzleCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#puzzleCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#puzzleCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#puzzleCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#puzzleCarousel" data-bs-slide-to="2"></button>
+                <button type="button" data-bs-target="#puzzleCarousel" data-bs-slide-to="3"></button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-muted py-4 mt-5">
+        <div class="container">
+            ¿Te gusta esta herramienta? <a href="donate.html" class="text-decoration-none text-primary">Haz una
+                donación</a>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
